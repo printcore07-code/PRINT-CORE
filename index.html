@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRINT CORE| Premium Poster Packs</title>
+
+<style>
+/* =========================================================
+   DESIGN / LAYOUT
+   Change colours here if you want to customise the website.
+========================================================= */
+:root {
+    --dark: #111827;
+    --yellow: #cae000;
+    --light: #f5f5f5;
+    --text: #151515;
+    --muted: #777;
+    --green: #16a34a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: Arial, Helvetica, sans-serif; background: var(--light); color: var(--text); }
+
+/* HEADER */
+header {
+    min-height: 72px; background: var(--dark); color: white;
+    display: flex; align-items: center; padding: 12px 6%; gap: 30px;
+    position: sticky; top: 0; z-index: 1000; flex-wrap: wrap;
+}
+.logo { font-size: 24px; font-weight: 900; white-space: nowrap; }
+.logo span { color: var(--yellow); }
+.search { flex: 1; max-width: 650px; display: flex; }
+.search input { width: 100%; padding: 13px 17px; border: 0; outline: 0; font-size: 14px; border-radius: 6px 0 0 6px; }
+.search button { width: 55px; border: 0; background: var(--yellow); font-size: 18px; cursor: pointer; border-radius: 0 6px 6px 0; }
+.nav { display: flex; align-items: center; gap: 22px; }
+.nav a { color: white; text-decoration: none; font-size: 14px; }
+.nav a:hover { color: var(--yellow); }
+
+/* HERO */
+.hero {
+    min-height: 430px; padding: 55px 8%;
+    background: linear-gradient(120deg, #080b10, #202938);
+    color: white; display: flex; align-items: center; justify-content: space-between;
+    gap: 50px; overflow: hidden;
+}
+.hero-content { max-width: 600px; }
+.hero-small { color: var(--yellow); font-size: 13px; letter-spacing: 3px; font-weight: bold; }
+.hero h1 { font-size: 52px; line-height: 1.05; margin: 15px 0; }
+.hero p { color: #cbd5e1; line-height: 1.7; margin-bottom: 25px; font-size: 16px; }
+.hero-button { padding: 14px 26px; border: 0; background: var(--yellow); color: #111; font-weight: bold; border-radius: 5px; cursor: pointer; }
+.hero-button:hover { background: white; }
+.hero-preview {
+    width: 280px; height: 350px; position: relative; transform: rotate(5deg);
+    box-shadow: 0 20px 50px rgba(0,0,0,.5); overflow: hidden; background: #222; flex-shrink: 0;
+}
+.hero-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+/* PRODUCTS */
+.section { padding: 50px 7%; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.section-title { font-size: 29px; }
+.product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.product { background: white; border-radius: 9px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.07); transition: .25s; }
+.product:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,.13); }
+.product-image { height: 350px; background: #e9e9e9; position: relative; overflow: hidden; }
+.product-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .25s ease; }
+.discount { position: absolute; top: 12px; left: 12px; background: var(--green); color: white; font-size: 11px; padding: 6px 9px; border-radius: 4px; z-index: 5; font-weight: bold; }
+.poster-count { position: absolute; bottom: 12px; left: 12px; background: rgba(0,0,0,.78); color: white; padding: 6px 10px; border-radius: 4px; font-size: 11px; z-index: 5; }
+.wishlist { position: absolute; top: 10px; right: 10px; width: 37px; height: 37px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255,255,255,.92); cursor: pointer; z-index: 10; font-size: 20px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s; }
+.product-image:hover .slider-arrow { opacity: 1; }
+.slider-prev { left: 10px; } .slider-next { right: 10px; }
+.slider-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; z-index: 6; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.65); cursor: pointer; }
+.dot.active { background: var(--yellow); transform: scale(1.3); }
+.product-info { padding: 16px; }
+.product-title { font-size: 16px; font-weight: bold; margin-bottom: 7px; }
+.product-description { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.pack-info { display: flex; align-items: center; gap: 8px; }
+.pack-badge { background: var(--dark); color: white; padding: 5px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+.price { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.current-price { font-size: 20px; font-weight: bold; }
+.old-price { color: #888; text-decoration: line-through; font-size: 13px; }
+.save { color: var(--green); font-size: 12px; font-weight: bold; }
+.more-details { width: 100%; margin-top: 14px; padding: 12px; border: 0; background: var(--dark); color: white; border-radius: 5px; font-size: 13px; font-weight: bold; cursor: pointer; transition: .2s; }
+.more-details:hover { background: var(--yellow); color: #111; }
+.no-results { text-align: center; padding: 40px; color: var(--muted); display: none; }
+
+/* OFFER + FOOTER */
+.offer { margin: 10px 7% 50px; padding: 35px; border-radius: 10px; background: var(--yellow); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.offer h2 { font-size: 29px; margin-bottom: 5px; }
+.offer p { color: #333; }
+.offer button { padding: 13px 24px; border: 0; background: var(--dark); color: white; border-radius: 5px; font-weight: bold; cursor: pointer; }
+footer { background: var(--dark); color: #ccc; padding: 50px 7% 25px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+footer h3 { color: white; margin-bottom: 15px; }
+footer p, footer a { color: #aaa; font-size: 14px; line-height: 2; text-decoration: none; }
+footer a:hover { color: var(--yellow); }
+.copyright { border-top: 1px solid #374151; margin-top: 35px; padding-top: 20px; text-align: center; font-size: 13px; }
+
+@media(max-width:1000px) {
+    header { padding: 12px 4%; gap: 12px; }
+    .search { order: 3; flex-basis: 100%; max-width: none; }
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media(max-width:700px) {
+    .hero { flex-direction: column; text-align: center; padding: 45px 6%; min-height: 650px; }
+    .hero h1 { font-size: 38px; }
+    .hero-preview { width: 230px; height: 285px; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .product-image { height: 280px; }
+    .product-info { padding: 11px; }
+    .product-title { font-size: 14px; }
+    .current-price { font-size: 17px; }
+    .product-description { font-size: 12px; }
+    .offer { margin: 10px 5% 40px; flex-direction: column; text-align: center; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .slider-arrow { opacity: 1; }
+}
+@media(max-width:450px) {
+    .logo { font-size: 19px; }
+    .section { padding: 30px 4%; }
+    .section-title { font-size: 22px; }
+    .product-image { height: 245px; }
+    .discount, .poster-count { font-size: 9px; padding: 5px 6px; }
+    .slider-arrow { width: 29px; height: 29px; font-size: 15px; }
+    .wishlist { width: 31px; height: 31px; font-size: 17px; }
+    .more-details { font-size: 10px; padding: 10px 5px; }
+    .pack-badge, .rating { font-size: 9px; }
+    .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     WEBSITE TEXT / HERO SETTINGS
+     Edit the text and image paths in this section.
+========================================================= -->
+<header>
+    <div class="logo">PRINT<span> CORE </span></div>
+    <div class="search">
+        <input type="text" id="searchInput" placeholder="Search poster packs..." onkeyup="searchProducts()">
+        <button onclick="searchProducts()">🔍</button>
+    </div>
+    <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-small">PREMIUM POSTER PACKS</div>
+        <h1>More Posters.<br>More Style.</h1>
+        <p>Discover curated packs of premium posters for your room, studio, office or gaming setup.</p>
+        <button class="hero-button" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+            SHOP POSTER PACKS →
+        </button>
+    </div>
+    <div class="hero-preview">
+        <!-- HERO IMAGE: Replace this file name with your featured poster image. -->
+        <img src="PORSCHE.png" alt="Featured Poster">
+    </div>
+</section>
+
+<section class="section" id="shop">
+    <div class="section-header">
+        <h2 class="section-title">Poster Packs</h2>
+    </div>
+
+    <!-- Product cards are automatically created from the PRODUCT DETAILS section below. -->
+    <div class="product-grid" id="productGrid"></div>
+    <div class="no-results" id="noResults">No poster packs found.</div>
+</section>
+
+<section class="offer">
+    <div>
+        <h2>🔥 Special Launch Offer</h2>
+        <p>Get premium poster packs at launch prices.</p>
+    </div>
+    <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP NOW</button>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <h3>PRINT CORE
+            <p>Premium poster packs designed for automotive lovers, football fans, anime and modern spaces.</p>
+            <p>📧 printcore07@gmail.com</p>
+        </div>
+        <div>
+            <h3>Shop</h3>
+            <a href="#shop">All Poster Packs</a><br>
+            <a href="#shop">New Arrivals</a><br>
+            <a href="#shop">Best Sellers</a>
+        </div>
+        <div>
+            <h3>Help</h3>
+            <a href="#">Contact</a><br>
+            <a href="#">Shipping</a><br>
+            <a href="#">Returns</a><br>
+            <a href="#">FAQ</a>
+        </div>
+        <div>
+            <h3>Follow</h3>
+            <a href="https://www.instagram.com/print._core?exln=MWwxa3Mxcms0c3l6ag==" target="_blank" rel="noopener">Instagram</a>
+        </div>
+    </div>
+    <div class="copyright">© 2026 PRINT CORE  </div>
+</footer>
+
+<script>
+/* =========================================================
+   1. STORE SETTINGS
+   Edit these details once. They are used by the website.
+========================================================= */
+const STORE_SETTINGS = {
+    // WhatsApp number: country code + number, without + or spaces.
+    whatsappNumber: "7736849332",
+
+    // Time between automatic product image changes (milliseconds).
+    slideshowSpeed: 3500
+};
+
+
+/* =========================================================
+   2. PRODUCT DETAILS  ⭐ EDIT YOUR PRODUCTS HERE ⭐
+
+   To add a product:
+   - Copy one complete product block (from { to },).
+   - Paste it after the last product block.
+   - Change the details and image file names.
+
+   IMPORTANT:
+   - Keep image files in the same folder as this HTML file,
+     or enter the correct relative image path.
+   - Add as many image file names as you want in images: [].
+   - Use a blank oldPrice ("") if you do not want to show an old price.
+========================================================= */
+const PRODUCTS = [
+    {
+    //PRODUCT 1
+        name: "Maruti Suzuki Poster Pack",
+        searchWords: "maruti suzuki alto swift car automotive",
+        description: "Premium car poster collection",
+        posterCount: "8 POSTERS",
+        price: 99,
+        oldPrice: 149,
+        images: [
+            "maruti 1.jpg",
+            "maruti 2.jpg",
+            "maruti 3.jpg"
+        ]
+    },
+
+    {
+      //PRODUCT 2
+        name: "Porsche 3 Piece Poster",
+        searchWords: "porsche sports car automotive",
+        description: "Iconic Porsche poster collection",
+        posterCount: "3 PIECE",
+        price: 149,
+        oldPrice: 199,
+        images: [
+            "porsche 332.jpg",
+            "porsche 333.jpg",
+            "PORSH.jpg"
+        ]
+    },
+
+    {
+      //PRODUCT 3
+        name: "Car Poster Pack - 11 Posters",
+        searchWords: "car automotive gaming universe",
+        description: "Premium car wall art",
+        posterCount: "11 POSTERS",
+        price: 99,
+        oldPrice: 99,
+        images: [
+            "posterpack2.jpg",
+            "posterpack1.jpg",
+            "posterpack3.jpg"
+        ]
+    },
+
+    {
+      //PRODUCT 4
+        name: "Minimal Aesthetic Car Pack",
+        searchWords: "minimal aesthetic modern car",
+        description: "Clean modern wall collection",
+        posterCount: "10 POSTERS",
+        price: 89,
+        oldPrice: 99,
+        images: [
+            "posterpack01.jpg",
+            "posterpack02.jpg",
+            "posterpack03.jpg"
+        ]
+    }
+];
+
+
+/* =========================================================
+   3. WEBSITE ENGINE
+   You normally do not need to edit anything below this line.
+========================================================= */
+
+// Create a product card using the details in PRODUCTS.
+function createProductCard(product, productIndex) {
+    const card = document.createElement("article");
+    card.className = "product";
+
+    const imageList = product.images || [];
+    const firstImage = imageList[0] || "";
+    const discount = product.oldPrice > product.price
+        ? Math.round((1 - product.price / product.oldPrice) * 100)
+        : 0;
+    const saving = product.oldPrice > product.price
+        ? product.oldPrice - product.price
+        : 0;
+
+    card.dataset.search = `${product.name} ${product.searchWords || ""} ${product.description}`.toLowerCase();
+
+    card.innerHTML = `
+        <div class="product-image">
+            <img class="pack-image" src="${escapeHTML(firstImage)}" alt="${escapeHTML(product.name)}">
+            ${discount ? `<span class="discount">${discount}% OFF</span>` : ""}
+            <span class="poster-count">${escapeHTML(product.posterCount)}</span>
+            <div class="wishlist" role="button" aria-label="Add to wishlist" onclick="toggleWishlist(this)">♡</div>
+            <button class="slider-arrow slider-prev" aria-label="Previous image" onclick="changeSlide(this, -1)">‹</button>
+            <button class="slider-arrow slider-next" aria-label="Next image" onclick="changeSlide(this, 1)">›</button>
+            <div class="slider-dots"></div>
+        </div>
+        <div class="product-info">
+            <div class="product-title">${escapeHTML(product.name)}</div>
+            <div class="product-description">${escapeHTML(product.description)}</div>
+            <div class="pack-info">
+                <span class="pack-badge">${escapeHTML(product.posterCount)}</span>
+            </div>
+            <div class="price">
+                <span class="current-price">₹${Number(product.price).toLocaleString("en-IN")}</span>
+                ${product.oldPrice > product.price ? `<span class="old-price">₹${Number(product.oldPrice).toLocaleString("en-IN")}</span>` : ""}
+            </div>
+            <button class="more-details" onclick="orderOnWhatsApp(${productIndex})">ORDER ON WHATSAPP →</button>
+        </div>
+    `;
+
+    const image = card.querySelector(".pack-image");
+    image.dataset.images = JSON.stringify(imageList);
+    image.dataset.index = "0";
+    setupProductDots(image);
+
+    return card;
+}
+
+// Safely display product text in the HTML.
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    })[character]);
+}
+
+// Display all products.
+function displayProducts() {
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = "";
+    PRODUCTS.forEach((product, index) => {
+        grid.appendChild(createProductCard(product, index));
+    });
+}
+
+// Read the image list for a product.
+function getProductImages(img) {
+    try {
+        return JSON.parse(img.dataset.images || "[]");
+    } catch (error) {
+        return [];
+    }
+}
+
+// Create the small slider dots.
+function setupProductDots(img) {
+    const images = getProductImages(img);
+    const dots = img.parentElement.querySelector(".slider-dots");
+    dots.innerHTML = "";
+
+    images.forEach((image, index) => {
+        const dot = document.createElement("span");
+        dot.className = "dot" + (index === 0 ? " active" : "");
+        dot.setAttribute("aria-label", `Show image ${index + 1}`);
+        dot.onclick = () => showSlide(img, index);
+        dots.appendChild(dot);
+    });
+}
+
+// Show a selected product image.
+function showSlide(img, index) {
+    const images = getProductImages(img);
+    if (!images.length) return;
+
+    index = (index + images.length) % images.length;
+    img.style.opacity = "0";
+
+    setTimeout(() => {
+        img.src = images[index];
+        img.dataset.index = String(index);
+        img.style.opacity = "1";
+    }, 120);
+
+    img.parentElement.querySelectorAll(".dot").forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === index);
+    });
+}
+
+// Previous / next image buttons.
+function changeSlide(button, direction) {
+    const img = button.closest(".product-image").querySelector(".pack-image");
+    showSlide(img, Number(img.dataset.index || 0) + direction);
+}
+
+// Automatically rotate product images.
+function automaticSlideshow() {
+    document.querySelectorAll(".pack-image").forEach(img => {
+        const images = getProductImages(img);
+        if (images.length > 1) {
+            showSlide(img, Number(img.dataset.index || 0) + 1);
+        }
+    });
+}
+
+// Wishlist button.
+function toggleWishlist(button) {
+    const selected = button.innerText === "♥";
+    button.innerText = selected ? "♡" : "♥";
+    button.style.color = selected ? "#111" : "red";
+}
+
+// Search product names, descriptions and search words.
+function searchProducts() {
+    const searchValue = document.getElementById("searchInput").value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".product");
+    let found = 0;
+
+    cards.forEach(card => {
+        const matches = card.dataset.search.includes(searchValue);
+        card.style.display = matches ? "" : "none";
+        if (matches) found++;
+    });
+
+    document.getElementById("noResults").style.display = found === 0 ? "block" : "none";
+}
+
+// Open WhatsApp with the selected product name and price.
+function orderOnWhatsApp(productIndex) {
+    const product = PRODUCTS[productIndex];
+    if (!product) return;
+
+    const message = `Hi! I would like to order the ${product.name} (₹${product.price}). Please send me the payment and delivery details.`;
+    const whatsappURL = `https://wa.me/${STORE_SETTINGS.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank", "noopener");
+}
+
+// Start the website.
+displayProducts();
+setInterval(automaticSlideshow, STORE_SETTINGS.slideshowSpeed);
+</script>
+
+</body>
+</html>
